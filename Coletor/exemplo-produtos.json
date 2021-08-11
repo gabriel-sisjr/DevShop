@@ -1,0 +1,30 @@
+[
+  {
+    "Id": "1",
+    "Nome": "Iphone 8",
+    "Quantidade": 100,
+    "Valor": 1234.56,
+    "Variante": "32GB"
+  },
+  {
+    "Id": "2",
+    "Nome": "SmarTV LG",
+    "Quantidade": 60,
+    "Valor": 2999.99,
+    "Variante": "4k"
+  },
+  {
+    "Id": "3",
+    "Nome": "Creme Dental Colgate",
+    "Quantidade": 700,
+    "Valor": 2.56,
+    "Variante": "Branqueamento"
+  },
+  {
+    "Id": "4",
+    "Nome": "Notebook Lenovo Thinkpad",
+    "Quantidade": 100,
+    "Valor": 2434.56,
+    "Variante": "256GB"
+  }
+]

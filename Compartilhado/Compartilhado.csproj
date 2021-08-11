@@ -9,6 +9,7 @@
     <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.DynamoDBEvents" Version="1.2.0" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.0.51" />
   </ItemGroup>
 
 </Project>

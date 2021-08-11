@@ -33,13 +33,17 @@ namespace Coletor
                     try
                     {
                         ProcessarValorTotalPedido(pedido);
+                        await AmazonUtils.EnviarParaFilaSQS(FilaSQS.PEDIDO, pedido); // Disparando na Fila.
+                        context.Logger.LogLine($"Sucesso ao adicionar o pedido: {pedido.Id}");
                     }
                     catch (Exception e)
                     {
+                        context.Logger.Log($"Erro: {e.Message}");
                         pedido.JustificativaDeCancelamento = e.Message;
                         pedido.Cancelado = true;
 
                         // TODO: Adicionar à fila de falha.
+                        await AmazonUtils.EnviarParaFilaSNS(FilaSNS.FALHA, pedido);
                     }
 
                     // TODO: Salvar o pedido.
@@ -75,8 +79,8 @@ namespace Coletor
             var request = new QueryRequest
             {
                 TableName = "estoque",
-                KeyConditionExpression = "ID = :v_id",
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue> { { "v_id", new AttributeValue { S = id } } } // Evitar SQL Injection.
+                KeyConditionExpression = "Id = :v_id",
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue> { { ":v_id", new AttributeValue { S = id } } } // Evitar SQL Injection.
             };
 
             var response = await client.QueryAsync(request);
