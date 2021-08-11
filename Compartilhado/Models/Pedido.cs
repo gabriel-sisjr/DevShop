@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using Compartilhado.Models.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -13,9 +14,8 @@ namespace Compartilhado.Models
         public List<Produto> Produtos { get; set; }
         public Cliente Cliente { get; set; }
         public Pagamento Pagamento { get; set; }
-        public string Justificativa { get; set; }
-        public string Status { get; set; }
-        public bool Pago { get; set; }
-        public bool Faturado { get; set; }
+        public string JustificativaDeCancelamento { get; set; }
+        public StatusPedido Status { get; set; }
+        public bool Cancelado { get; set; }
     }
 }
