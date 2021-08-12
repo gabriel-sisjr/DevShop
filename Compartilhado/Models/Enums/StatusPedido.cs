@@ -3,6 +3,7 @@
     public enum StatusPedido
     {
         COLETADO,
+        RESERVADO,
         PAGO,
         FATURADO
     }

@@ -11,6 +11,7 @@
     <PackageReference Include="Amazon.Lambda.DynamoDBEvents" Version="1.2.0" />
     <PackageReference Include="AWSSDK.SQS" Version="3.7.0.51" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.2.0" />
   </ItemGroup>
 
 </Project>
