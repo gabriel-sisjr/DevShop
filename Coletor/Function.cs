@@ -32,9 +32,10 @@ namespace Coletor
                     pedido.Status = StatusPedido.COLETADO;
                     try
                     {
-                        ProcessarValorTotalPedido(pedido);
-                        await AmazonUtils.EnviarParaFilaSQS(FilaSQS.PEDIDO, pedido); // Disparando na Fila.
-                        context.Logger.LogLine($"Sucesso ao adicionar o pedido: {pedido.Id}");
+                        var pedidoCalculado = await ProcessarValorTotalPedido(pedido);
+
+                        await AmazonUtils.EnviarParaFilaSQS(FilaSQS.PEDIDO, pedidoCalculado); // Disparando na Fila.
+                        context.Logger.LogLine($"Sucesso ao adicionar o pedido: {pedidoCalculado.Id}");
                     }
                     catch (Exception e)
                     {
@@ -54,21 +55,23 @@ namespace Coletor
             context.Logger.LogLine("Stream processing complete.");
         }
 
-        private void ProcessarValorTotalPedido(Pedido pedido)
+        private async Task<Pedido> ProcessarValorTotalPedido(Pedido pedido)
         {
-            pedido.Produtos.ForEach(async prod =>
+            foreach (var prod in pedido.Produtos)
             {
                 var produtoDoEstoque = await ObterProdutoDoDynamoDBAsync(prod.Id);
                 if (produtoDoEstoque == null) throw new InvalidOperationException($"Produto não encontrado no estoque. Id: {prod.Id}");
                 prod.Valor = produtoDoEstoque.Valor;
                 prod.Nome = produtoDoEstoque.Nome;
-            });
+            }
 
             var valorTotal = pedido.Produtos.Sum(x => x.Valor * x.Quantidade);
             if (pedido.ValorTotal != 0 && pedido.ValorTotal != valorTotal)
                 throw new InvalidOperationException($"Valores totais divergentes. Valor esperado do pedido: R${pedido.ValorTotal} || Valor Calculado: R${valorTotal}");
 
             pedido.ValorTotal = valorTotal;
+
+            return pedido;
         }
 
         private async Task<Produto> ObterProdutoDoDynamoDBAsync(string id)

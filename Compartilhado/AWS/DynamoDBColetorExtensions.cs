@@ -25,7 +25,6 @@ namespace Compartilhado.AWS
             var client = new AmazonDynamoDBClient(_regionEndpoint);
             var context = new DynamoDBContext(client);
 
-            // 
             return context.FromDocument<T>(document);
         }
     }
