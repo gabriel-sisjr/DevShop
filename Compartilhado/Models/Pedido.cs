@@ -1,5 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Compartilhado.Models.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +17,7 @@ namespace Compartilhado.Models
         public Cliente Cliente { get; set; }
         public Pagamento Pagamento { get; set; }
         public string JustificativaDeCancelamento { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public StatusPedido Status { get; set; }
         public bool Cancelado { get; set; }
     }
