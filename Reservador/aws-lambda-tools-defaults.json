@@ -19,5 +19,6 @@
     "function-role"        : "arn:aws:iam::205886172740:role/Cadastrador-AspNetCoreFunctionRole-BLEQ8GCE4Q6W",
     "tracing-mode"         : "PassThrough",
     "environment-variables" : "",
-    "image-tag"             : ""
+    "image-tag"             : "",
+    "function-description"  : ""
 }
