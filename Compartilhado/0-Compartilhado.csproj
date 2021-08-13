@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Compartilhado</AssemblyName>
+    <RootNamespace>Compartilhado</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

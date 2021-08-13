@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cadastrador", "Cadastrador\Cadastrador.csproj", "{25099C8C-BCE6-43BF-B87B-A6890AAE302E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1-Cadastrador", "Cadastrador\1-Cadastrador.csproj", "{25099C8C-BCE6-43BF-B87B-A6890AAE302E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compartilhado", "Compartilhado\Compartilhado.csproj", "{3BA19182-C992-4C1F-B290-6282EC23DEF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "0-Compartilhado", "Compartilhado\0-Compartilhado.csproj", "{3BA19182-C992-4C1F-B290-6282EC23DEF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coletor", "Coletor\Coletor.csproj", "{1F496E09-14A4-4F18-9DB2-93141ED7926F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2-Coletor", "Coletor\2-Coletor.csproj", "{1F496E09-14A4-4F18-9DB2-93141ED7926F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservador", "Reservador\Reservador.csproj", "{A257552E-2060-4CAE-BE80-60A853524107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3-Reservador", "Reservador\3-Reservador.csproj", "{A257552E-2060-4CAE-BE80-60A853524107}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4-Pagador", "Pagador\4-Pagador.csproj", "{ABE55223-349A-4A5E-89D2-70E578A23613}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A257552E-2060-4CAE-BE80-60A853524107}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A257552E-2060-4CAE-BE80-60A853524107}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A257552E-2060-4CAE-BE80-60A853524107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE55223-349A-4A5E-89D2-70E578A23613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE55223-349A-4A5E-89D2-70E578A23613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE55223-349A-4A5E-89D2-70E578A23613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE55223-349A-4A5E-89D2-70E578A23613}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
