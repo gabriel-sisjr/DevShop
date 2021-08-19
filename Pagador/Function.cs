@@ -1,10 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
+using Compartilhado.AWS;
+using Compartilhado.Externo;
+using Compartilhado.Models;
+using Compartilhado.Models.Enums;
+using Newtonsoft.Json;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -14,38 +17,54 @@ namespace Pagador
 {
     public class Function
     {
-        /// <summary>
-        /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
-        /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
-        /// region the Lambda function is executed in.
-        /// </summary>
-        public Function()
-        {
+        public Function() { }
 
-        }
-
-
-        /// <summary>
-        /// This method is called for every Lambda invocation. This method takes in an SQS event object and can be used 
-        /// to respond to SQS messages.
-        /// </summary>
-        /// <param name="evnt"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public async Task FunctionHandler(SQSEvent evnt, ILambdaContext context)
         {
-            foreach(var message in evnt.Records)
+            if (evnt.Records.Count > 1) throw new InvalidOperationException("Somente uma mensagem por Lambda.");
+
+            var message = evnt.Records.FirstOrDefault();
+            if (message == null) return;
+
+            // Processa a msg.
+            await ProcessMessageAsync(message, context);
+
+            /*
+            foreach (var msg in evnt.Records)
             {
-                await ProcessMessageAsync(message, context);
+                await ProcessMessageAsync(msg, context);
             }
+            */
         }
 
         private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context)
         {
             context.Logger.LogLine($"Processed message {message.Body}");
 
-            // TODO: Do interesting work based on the new message
-            await Task.CompletedTask;
+            var pedido = JsonConvert.DeserializeObject<Pedido>(message.Body);
+            var cliente = pedido.Cliente;
+            var pagamento = pedido.Pagamento;
+
+            var processador = new GatewayPagamento();
+            try
+            {
+                await processador.ProcessaPagamento(cliente, pagamento);
+                pedido.Status = StatusPedido.PAGO;
+                context.Logger.LogLine($"O pedido {pedido.Id} de {pedido.Cliente.Nome} no valor de R${pedido.ValorTotal} foi pago com sucesso.");
+            }
+            catch (Exception)
+            {
+                pedido.JustificativaDeCancelamento = $"ERRO: O pedido {pedido.Id} de {pedido.Cliente.Nome} no valor de R${pedido.ValorTotal} foi negado.";
+                pedido.Cancelado = true;
+                context.Logger.LogLine($"ERRO: {pedido.JustificativaDeCancelamento}");
+            }
+
+
+            if (pedido.Cancelado)
+                await AmazonUtils.EnviarParaFilaSNS(FilaSNS.FALHA, pedido);
+            else
+                await AmazonUtils.EnviarParaFilaSQS(FilaSQS.PAGO, pedido);
+
         }
     }
 }
